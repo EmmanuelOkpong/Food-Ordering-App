@@ -8,10 +8,10 @@ import androidx.room.TypeConverters
 import com.example.foodapp.converter.CategoryListConverter
 import com.example.foodapp.dao.RecipeDao
 import com.example.foodapp.entities.Category
-import com.example.foodapp.entities.CategoryItems
+import com.example.foodapp.entities.CategoryItem
 import com.example.foodapp.entities.Recipes
 
-@Database(entities = [Recipes::class,Category::class,CategoryItems::class], version = 1, exportSchema = false)
+@Database(entities = [Recipes::class,Category::class,CategoryItem::class], version = 1, exportSchema = false)
 @TypeConverters(CategoryListConverter::class)
 abstract class RecipeDatabase : RoomDatabase() {
 

@@ -1,7 +1,6 @@
 package com.example.foodapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -27,7 +26,7 @@ class SplashActivity : BaseActivity(),EasyPermissions.RationaleCallbacks,EasyPer
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        buttonSplash = findViewById<Button>(R.id.btn_bg)
+        buttonSplash = findViewById(R.id.btn_bg)
 
 
 
@@ -71,10 +70,8 @@ class SplashActivity : BaseActivity(),EasyPermissions.RationaleCallbacks,EasyPer
         launch {
             this.let {
                 RecipeDatabase.getDatabase(this@SplashActivity).recipeDao().clearedDB()
-                for (arr in category!!.categoriesitems!!){
-                    RecipeDatabase.getDatabase(this@SplashActivity)
-                        .recipeDao().insertCategory(arr)
-                }
+                RecipeDatabase.getDatabase(this@SplashActivity).recipeDao()
+                    .insertCategory(category!!)
                 buttonSplash.visibility=View.VISIBLE
             }
         }

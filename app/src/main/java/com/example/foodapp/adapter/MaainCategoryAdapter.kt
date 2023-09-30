@@ -8,22 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodapp.R
-import com.example.foodapp.entities.CategoryItems
-import com.example.foodapp.entities.Recipes
+import com.example.foodapp.entities.CategoryItem
 
 class MainCategoryAdapter: RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHolder>() {
 
 
     var cxt: Context?=null
     //for the purpose of learning, note that 'Recipe' was the initial type before it is change to 'categoryItems' type
-    var arrMainCateogry = ArrayList<CategoryItems>()
+    var arrMainCateogry = ArrayList<CategoryItem>()
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     }
 
-    fun setData(arrData: ArrayList<CategoryItems>) {
-        arrMainCateogry = arrData as ArrayList<CategoryItems>
+    fun setData(arrData: ArrayList<CategoryItem>) {
+        arrMainCateogry = arrData as ArrayList<CategoryItem>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
