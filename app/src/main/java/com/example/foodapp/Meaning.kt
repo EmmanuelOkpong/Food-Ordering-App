@@ -1,11 +1,5 @@
 package com.example.foodapp
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import com.example.foodapp.entities.CategoryItems
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
 //data class Meaning(
 //    @SerializedName("definitions")
 //    val definitions: List<Definition>

@@ -2,45 +2,31 @@ package com.example.foodapp.converter
 
 import androidx.room.TypeConverter
 import com.example.foodapp.entities.Category
-import com.example.foodapp.entities.CategoryItems
+import com.example.foodapp.entities.CategoryItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class CategoryListConverter {
     @TypeConverter
-    fun fromCategoryList(category: List<Category>): String? {
-        if (category == null) {
-            return (null)
-        } else {
-            val gson = Gson()
-            val type = object : TypeToken<Category>() {
-
-            }.type
-            return gson.toJson(category, type)
+    fun fromCatItems(items: List<CategoryItem>?): String? {
+        if (items == null) {
+            return null
         }
+
+        val gson = Gson()
+        val type = object : TypeToken<CategoryItem>() {}.type
+
+        return gson.toJson(items, type)
     }
 
     @TypeConverter
-    fun toCategoryList(categoryString: String): List<Category>? {
+    fun toCatItems(categoryString: String?): List<CategoryItem>? {
         if (categoryString == null) {
             return (null)
-        } else {
-
-            val gson = Gson()
-            val type = object : TypeToken<Category>() {
-
-            }.type
-            return gson.fromJson(categoryString, type)
-
         }
+        val gson = Gson()
+        val type = object : TypeToken<Category>() {}.type
+        return gson.fromJson(categoryString, type)
     }
+
 }
-//
-//
-//    @TypeConverter
-//    fun listToJson(value: List<CategoryItems>) = Gson().toJson(value)
-//
-//    @TypeConverter
-//    fun jsonToList(value: String) =
-//        Gson().fromJson(value, Array<CategoryItems>::class.java).toList()
-//}
