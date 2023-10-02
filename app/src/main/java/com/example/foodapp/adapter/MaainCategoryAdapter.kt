@@ -8,21 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodapp.R
-import com.example.foodapp.entities.CategoryItem
+import com.example.foodapp.model.Category
 
 class MainCategoryAdapter: RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHolder>() {
 
 
     var cxt: Context?=null
     //for the purpose of learning, note that 'Recipe' was the initial type before it is change to 'categoryItems' type
-    var arrMainCateogry = ArrayList<CategoryItem>()
+    var arrMainCateogry = ArrayList<Category>()
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     }
 
-    fun setData(arrData: ArrayList<CategoryItem>) {
-        arrMainCateogry = arrData as ArrayList<CategoryItem>
+    fun setData(arrData: ArrayList<Category>) {
+        arrMainCateogry = arrData as ArrayList<Category>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -39,7 +39,7 @@ class MainCategoryAdapter: RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHo
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         holder.itemView.findViewById<TextView>(R.id.dishNameBTN).text =
-            arrMainCateogry[position].strcategory
+            arrMainCateogry[position].categoryName
 
         Glide.with(cxt!!).load(arrMainCateogry[position]).into(holder.itemView.findViewById(R.id.mainImage))
 

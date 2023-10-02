@@ -1,78 +1,58 @@
-package com.example.foodapp
+package com.example.foodapp.ui
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
+import com.example.foodapp.R
 import com.example.foodapp.database.RecipeDatabase
-import com.example.foodapp.entities.Category
-import com.example.foodapp.interfaces.GetDataServices
-import com.example.foodapp.retrofitclient.RetrofitClientInstant
+import com.example.foodapp.databinding.ActivitySplashBinding
+import com.example.foodapp.model.Category
+import com.example.foodapp.util.READ_STORAGE_PERM
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SplashActivity : BaseActivity(),EasyPermissions.RationaleCallbacks,EasyPermissions.PermissionCallbacks {
-    private var READ_STORAGE_PERM=123
-   // lateinit var buttonSplash:Button
- //   EasyPermissions.RationaleCallbacks,EasyPermissions.PermissionCallbacks
-    lateinit var buttonSplash:Button
+    private lateinit var binding: ActivitySplashBinding
+    private val viewModel: SplashViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
-        buttonSplash = findViewById(R.id.btn_bg)
-
-
-
-        buttonSplash.setOnClickListener {
-            val intent = Intent(this@SplashActivity, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
+        binding.getStarted.setOnClickListener {
+            getCategories()
         }
+
+        viewModel.categories.observe(this) { response ->
+            Log.d("TAG", "categories.observe called")
+            if (response.isSuccessful) {
+                val data = response.body()
+                Log.d("TAG", "All Categories: $data")
+                // Process the data here
+            } else {
+                Toast.makeText(this@SplashActivity, "Error", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
-    fun getCategories(){
-
-        val service=RetrofitClientInstant.retrofitInstance!!.create(GetDataServices::class.java)
-        val call=service.getCategoryList()
-        call.enqueue(object: Callback<Category>{
-            override fun onFailure(call: Call<Category>, t: Throwable) {
-                val loader: ProgressBar = findViewById(R.id.lodder)
-
-                loader.visibility = View.INVISIBLE
-                Toast.makeText(this@SplashActivity,"Something Went Wrong", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            override fun onResponse(
-                call: Call<Category>,
-                 response: Response<Category>
-            ) {
-                insertDataIntoRoomDb(response.body())
-            }
-        })
+    private fun getCategories() {
+        viewModel.getCategories()
     }
 
-//            }
-//
-//            )
-//        }
-//    }
 
-
-
-    fun insertDataIntoRoomDb(category:Category?){
+    fun insertDataIntoRoomDb(category: Category?) {
         launch {
             this.let {
                 RecipeDatabase.getDatabase(this@SplashActivity).recipeDao().clearedDB()
                 RecipeDatabase.getDatabase(this@SplashActivity).recipeDao()
                     .insertCategory(category!!)
-                buttonSplash.visibility=View.VISIBLE
+                binding.getStarted.visibility = View.VISIBLE
             }
         }
 

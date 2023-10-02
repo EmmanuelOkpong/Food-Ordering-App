@@ -1,18 +1,19 @@
-package com.example.foodapp
+package com.example.foodapp.ui
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodapp.R
 import com.example.foodapp.adapter.MainCategoryAdapter
 import com.example.foodapp.adapter.SubCategoryAdapter
 import com.example.foodapp.database.RecipeDatabase
-import com.example.foodapp.entities.CategoryItem
-import com.example.foodapp.entities.Recipes
+import com.example.foodapp.model.Category
+import com.example.foodapp.model.Recipes
 import kotlinx.coroutines.launch
 
 class HomeActivity : BaseActivity() {
 
-    lateinit var arrMainCategory:ArrayList<CategoryItem>
+    lateinit var arrMainCategory:ArrayList<Category>
     lateinit   var arrSubCategory:ArrayList<Recipes>
     lateinit var mainCategoryAdapter: MainCategoryAdapter
     lateinit var subCategoryAdapter: SubCategoryAdapter
@@ -22,7 +23,7 @@ class HomeActivity : BaseActivity() {
 
 
 
-        arrMainCategory=ArrayList<CategoryItem>()
+        arrMainCategory=ArrayList<Category>()
         arrSubCategory=ArrayList<Recipes>()
         val mainCategoryAdapter=MainCategoryAdapter()
         subCategoryAdapter=SubCategoryAdapter()
@@ -72,7 +73,7 @@ class HomeActivity : BaseActivity() {
         launch {
             this.let {
                 var cat= RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getAllCategory
-                arrMainCategory    = cat as ArrayList<CategoryItem>
+                arrMainCategory    = cat as ArrayList<Category>
                 mainCategoryAdapter.setData(arrMainCategory)
                 arrMainCategory.reverse()
                 var mainRecyclearAdapter=findViewById<RecyclerView>(R.id.mainCategoriesRecyclear)
