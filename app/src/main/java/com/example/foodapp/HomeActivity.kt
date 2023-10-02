@@ -1,6 +1,7 @@
 package com.example.foodapp
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodapp.adapter.MainCategoryAdapter
@@ -8,6 +9,8 @@ import com.example.foodapp.adapter.SubCategoryAdapter
 import com.example.foodapp.database.RecipeDatabase
 import com.example.foodapp.entities.CategoryItem
 import com.example.foodapp.entities.Recipes
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class HomeActivity : BaseActivity() {
@@ -69,7 +72,7 @@ class HomeActivity : BaseActivity() {
     }
     private fun getDataFromDb(){
         var  mainCategoryAdapter=MainCategoryAdapter()
-        launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             this.let {
                 var cat= RecipeDatabase.getDatabase(this@HomeActivity).recipeDao().getAllCategory
                 arrMainCategory    = cat as ArrayList<CategoryItem>
